@@ -43,6 +43,7 @@ package top.lighten.leetcode.editor.cn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 public class VvJkup {
     public static void main(String[] args) {
@@ -51,6 +52,37 @@ public class VvJkup {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+        List<List<Integer>> resList = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        int[] nums;
+        boolean[] used;
+
+        public List<List<Integer>> permute(int[] nums) {
+            this.nums = nums;
+            this.used = new boolean[nums.length];
+            dfs();
+            return resList;
+        }
+
+        public void dfs() {
+            if (path.size() == this.nums.length) {
+                resList.add(new ArrayList<>(path));
+            }
+            for (int i = 0; i < nums.length; i++) {
+                if (used[i]) {
+                    continue;
+                }
+                path.add(nums[i]);
+                used[i] = true;
+                dfs();
+                path.remove(path.size() - 1);
+                used[i] = false;
+            }
+        }
+    }
+//leetcode submit region end(Prohibit modification and deletion)
+
+    class MySolution {
         public List<List<Integer>> permute(int[] nums) {
             List<Integer> plist = new ArrayList<>(nums.length);
             for (int num : nums) {
@@ -78,6 +110,5 @@ public class VvJkup {
             return resList;
         }
     }
-//leetcode submit region end(Prohibit modification and deletion)
 
 }
