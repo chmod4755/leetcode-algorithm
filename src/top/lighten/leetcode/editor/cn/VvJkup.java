@@ -67,6 +67,7 @@ public class VvJkup {
         public void dfs() {
             if (path.size() == this.nums.length) {
                 resList.add(new ArrayList<>(path));
+                return;
             }
             for (int i = 0; i < nums.length; i++) {
                 if (used[i]) {
