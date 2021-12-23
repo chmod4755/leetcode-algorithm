@@ -47,19 +47,26 @@ import java.util.List;
 public class M99OJA {
     public static void main(String[] args) {
         Solution solution = new M99OJA().new Solution();
-        solution.partition("google");
+        String[][] res = solution.partition("google");
+        for (String[] re : res) {
+            System.out.println(String.join(",", re));
+        }
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
 
-        private StringBuilder current = new StringBuilder();
         private List<String> currentResult = new ArrayList<>();
+
+        private String text = null;
+
+        private boolean[][] legal = null;
+
         private List<List<String>> result = new ArrayList<>();
-        private String source;
 
         public String[][] partition(String s) {
-            this.source = s;
+            text = s;
+            buildMatrix();
             dfs(0);
             String[][] allResult = new String[result.size()][];
             for (int i = 0; i < result.size(); i++) {
@@ -69,27 +76,31 @@ public class M99OJA {
             return allResult;
         }
 
-        public boolean dfs(int index) {
-            current.append(source.charAt(index));
-            if (isLegal(current)) {
-                currentResult.add(current.toString());
-                if (index == source.length() - 1) {
-                    currentResult.add(current.toString());
-                    result.add(currentResult);
-                }
-                for (int i = index + 1; i < source.length(); i++) {
-                    if (dfs(i)) {
-                        currentResult.remove(currentResult.size() - 1);
-                    }
-                    current = new StringBuilder();
-
-                }
-                return true;
+        public void dfs(int start) {
+            if (start >= text.length()) {
+                result.add(new ArrayList<>(currentResult));
+                return;
             }
-            return false;
+            for (int i = start + 1; i <= text.length(); i++) {
+                if (legal[start][i]) {
+                    currentResult.add(text.substring(start, i));
+                    dfs(i);
+                    currentResult.remove(currentResult.size() - 1);
+                }
+            }
         }
 
-        public boolean isLegal(StringBuilder subStr) {
+        private void buildMatrix() {
+            int length = text.length();
+            legal = new boolean[length+1][length+1];
+            for (int i = 0; i <= length; i++) {
+                for (int j = i + 1; j <= length; j++) {
+                    legal[i][j] = isLegal(text.substring(i, j));
+                }
+            }
+        }
+
+        public boolean isLegal(String subStr) {
             if (subStr.length() == 1) {
                 return true;
             }
@@ -102,6 +113,8 @@ public class M99OJA {
             }
             return legal;
         }
+
+
     }
 //leetcode submit region end(Prohibit modification and deletion)
 
