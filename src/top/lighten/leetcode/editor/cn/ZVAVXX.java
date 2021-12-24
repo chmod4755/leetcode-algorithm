@@ -48,22 +48,24 @@ public class ZVAVXX {
         public int numSubarrayProductLessThanK(int[] nums, int k) {
             if (k < 2) return 0;
             int count = 0;
-//            int lastMul = nums[0];
-//            int lastEnd = 0;
-
+            int lastMul = 1;
+            int lastEnd = 0;
             for (int start = 0; start < nums.length; start++) {
-                int end = start;
-                int mul = 1;
-                while (end < nums.length) {
-                    mul *= nums[end];
-                    if (mul < k) {
-                        end++;
+                lastEnd = Math.max(start, lastEnd);
+                if (start > 0) {
+                    lastMul /= nums[start - 1];
+                }
+
+                while (lastEnd < nums.length) {
+                    lastMul *= nums[lastEnd];
+                    if (lastMul < k) {
+                        lastEnd++;
                     } else {
-//                        mul /= nums[end];
+                        lastMul /= nums[lastEnd];
                         break;
                     }
                 }
-                count += end - start;
+                count += lastEnd - start;
             }
 
             return count;
