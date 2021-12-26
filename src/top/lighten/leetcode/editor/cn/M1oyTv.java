@@ -62,18 +62,21 @@ public class M1oyTv {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+        int charNum = 0;
+
         public String minWindow(String s, String t) {
             HashMap<Character, Integer> map = new HashMap<>(t.length());
             for (int i = 0; i < t.length(); i++) {
                 char c = t.charAt(i);
                 map.merge(c, 1, Integer::sum);
             }
+            charNum = map.keySet().size();
 
             int start = 0, end = 0;
             int minCount = Integer.MAX_VALUE;
             int minStart = 0;
             while (minCount > t.length() && end <= s.length()) {
-                if (isContainsAll(map)) {
+                if (charNum == 0) {
                     int thisLength = end - start;
                     if (thisLength < minCount) {
                         minStart = start;
@@ -83,6 +86,9 @@ public class M1oyTv {
                     Integer num = map.get(c);
                     if (num != null) {
                         map.put(c, num + 1);
+                        if (num == 0) {
+                            charNum++;
+                        }
                     }
                     start++;
                 } else {
@@ -93,6 +99,9 @@ public class M1oyTv {
                     Integer num = map.get(c);
                     if (num != null) {
                         map.put(c, num - 1);
+                        if (num == 1) {
+                            charNum--;
+                        }
                     }
                     end++;
                 }
