@@ -37,32 +37,27 @@
 
 package top.lighten.leetcode.editor.cn;
 
+import java.util.HashMap;
+
 public class QTMn0o {
     public static void main(String[] args) {
         Solution solution = new QTMn0o().new Solution();
-        System.out.println(solution.subarraySum(new int[]{1, -1, 0}, 0));
+        System.out.println(solution.subarraySum(new int[]{1, 1, 1}, 2));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int subarraySum(int[] nums, int k) {
+            HashMap<Integer, Integer> map = new HashMap<>();
             int count = 0;
-            int[] array = new int[nums.length];
-            array[0] = nums[0];
-            if (array[0] == k) {
-                count++;
-            }
-            for (int i = 1; i < array.length; i++) {
-                int sum = array[i - 1] + nums[i];
+            int sum = 0;
+            for (int num : nums) {
+                sum += num;
                 if (sum == k) {
                     count++;
                 }
-                array[i] = sum;
-                for (int j = 0; j < i; j++) {
-                    if (array[i] - array[j] == k) {
-                        count++;
-                    }
-                }
+                count += map.getOrDefault(sum - k, 0);
+                map.put(sum, map.getOrDefault(sum, 0) + 1);
             }
             return count;
         }
