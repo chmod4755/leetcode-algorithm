@@ -33,29 +33,35 @@
 
 package top.lighten.leetcode.editor.cn;
 
-import java.util.HashMap;
+import java.util.Arrays;
 
 public class A1NYOS {
     public static void main(String[] args) {
         Solution solution = new A1NYOS().new Solution();
-        System.out.println(solution.findMaxLength(new int[]{0, 1, 0, 1, 0}));
+        System.out.println(solution.findMaxLength(new int[]{1,1,1,1,1,1,1,1}));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int findMaxLength(int[] nums) {
-            HashMap<Integer, Integer> map = new HashMap<>();
+            int[] array = new int[2*nums.length + 2];
+            Arrays.fill(array, -1);
             int maxLength = 0;
             int sum = 0;
             for (int i = 0; i < nums.length; i++) {
                 sum += nums[i];
-                int key = 2 * sum - i;
+                int key = 2 * sum - i + nums.length;
+                int value = array[key];
                 if (i % 2 == 1 && sum == (i + 1) / 2) {
                     maxLength = i + 1;
                 } else {
-                    maxLength = Math.max(maxLength, i - map.getOrDefault(key, i));
+                    if (value >= 0) {
+                        maxLength = Math.max(maxLength, i - value);
+                    }
                 }
-                map.putIfAbsent(key, i);
+                if (value < 0) {
+                    array[key] = i;
+                }
             }
             return maxLength;
         }
