@@ -59,14 +59,18 @@ import java.util.Arrays;
 public class Tvdfij {
     public static void main(String[] args) {
         Solution solution = new Tvdfij().new Solution();
-        System.out.println(solution.pivotIndex(new int[]{1,7,3,6,5,6}));
+        System.out.println(solution.pivotIndex(new int[]{1, 7, 3, 6, 5, 6}));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int pivotIndex(int[] nums) {
             int sumLeft = 0;
-            int sumRight = Arrays.stream(nums).sum() - nums[0];
+            int sumRight = 0;
+            for (int num : nums) {
+                sumRight += num;
+            }
+            sumRight -= nums[0];
             int index = 0;
             while (index < nums.length - 1) {
                 if (sumLeft == sumRight) {
