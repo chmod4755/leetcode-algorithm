@@ -62,8 +62,6 @@
 
 package top.lighten.leetcode.editor.cn;
 
-import java.util.HashSet;
-
 public class C32eOV {
     public static void main(String[] args) {
         Solution solution = new C32eOV().new Solution();
@@ -83,12 +81,21 @@ public class C32eOV {
 
     public class Solution {
         public ListNode detectCycle(ListNode head) {
-            HashSet<ListNode> set = new HashSet<>();
-            while (head != null && !set.contains(head)) {
-                set.add(head);
-                head = head.next;
+            ListNode fast = head;
+            ListNode slow = head;
+            while (fast != null && fast.next != null) {
+                slow = slow.next;
+                fast = fast.next.next;
+                if (slow == fast) {
+                    ListNode start = head;
+                    while (slow != start) {
+                        slow = slow.next;
+                        start = start.next;
+                    }
+                    return start;
+                }
             }
-            return head;
+            return null;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
