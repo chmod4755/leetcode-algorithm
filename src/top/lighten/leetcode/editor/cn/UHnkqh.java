@@ -72,21 +72,24 @@ public class UHnkqh {
     //leetcode submit region begin(Prohibit modification and deletion)
 
     class Solution {
+        ListNode first;
+
         public ListNode reverseList(ListNode head) {
             if (head == null) {
                 return null;
             }
-            ListNode current = head;
-            ListNode ahead = null;
-            ListNode next = current.next;
-            while (next != null) {
-                current.next = ahead;
-                ahead = current;
-                current = next;
-                next = current.next;
+            reverseNext(head);
+            head.next = null;
+            return first;
+        }
+
+        private void reverseNext(ListNode node) {
+            if (node.next != null) {
+                reverseNext(node.next);
+                node.next.next = node;
+            } else {
+                first = node;
             }
-            current.next = ahead;
-            return current;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
