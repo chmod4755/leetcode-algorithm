@@ -51,7 +51,7 @@ public class IIQa4I {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        static class Pair {
+        class Pair {
             int key;
             int value;
 
