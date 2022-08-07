@@ -109,11 +109,10 @@ public class ExclusiveTimeOfFunctions {
             Stack<Integer> current = new Stack<>();
             int lastTime = 0;
             for (String log : logs) {
-                int firstDot = log.indexOf(':', 0);
-                int index = Integer.parseInt(log.substring(0, firstDot), 10);
-                int lastDot = log.indexOf(':', firstDot + 1);
-                int time = Integer.parseInt(log.substring(lastDot + 1), 10);
-                if (log.charAt(firstDot + 1) == 's') {
+                String[] match = log.split(":");
+                int index = Integer.parseInt(match[0]);
+                int time = Integer.parseInt(match[2]);
+                if ("start".equals(match[1])) {
                     time = time - 1;
                     if (!current.isEmpty()) {
                         result[current.peek()] += (time - lastTime);
